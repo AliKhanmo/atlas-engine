@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+
+# builds
+dist/
+build/
+
+# logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# coverage
+coverage/
+
+# Nest
+.cache/
