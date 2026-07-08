@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TurnService } from './turn.service';
+
 import { TurnController } from './turn.controller';
+import { TurnRepository } from './turn.repository';
+import { TurnService } from './turn.service';
 
 @Module({
-  providers: [TurnService],
-  controllers: [TurnController]
+  controllers: [TurnController],
+  providers: [TurnRepository, TurnService],
+  exports: [TurnService],
 })
 export class TurnModule {}
