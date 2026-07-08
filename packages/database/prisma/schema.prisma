@@ -1,13 +1,185 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client-js"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+
+enum CampaignStatus {
+  ACTIVE
+  FINISHED
+}
+
+
+enum MemberRole {
+  LEADER
+  MEMBER
+}
+
+
+enum TurnStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+}
+
+
+enum ActionType {
+  RECRUIT
+  ATTACK
+  BUILD
+  TRADE
+  MOVE
+}
+
+
+enum ActionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXECUTED
+}
+
+
+model Game {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+
+  campaigns  Campaign[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Campaign {
+  id        String         @id @default(cuid())
+  name      String
+  status    CampaignStatus @default(ACTIVE)
+
+  gameId    String
+  game      Game           @relation(fields: [gameId], references: [id])
+
+  factions  Faction[]
+  turns     Turn[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Faction {
+  id          String @id @default(cuid())
+  name        String
+  description String?
+
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+
+  members    FactionMember[]
+  resources  FactionResource[]
+  actions    Action[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model FactionMember {
+  id         String     @id @default(cuid())
+  telegramId String
+  role       MemberRole @default(MEMBER)
+
+  factionId String
+  faction   Faction @relation(fields: [factionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([telegramId, factionId])
+}
+
+
+model ResourceType {
+  id          String @id @default(cuid())
+  name        String
+  description String?
+  icon        String?
+
+  resources FactionResource[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model FactionResource {
+  id     String @id @default(cuid())
+  amount Int    @default(0)
+
+  factionId String
+  faction   Faction @relation(fields: [factionId], references: [id])
+
+  resourceTypeId String
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([factionId, resourceTypeId])
+}
+
+
+model Turn {
+  id        String     @id @default(cuid())
+  number    Int
+  status    TurnStatus @default(PENDING)
+
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+
+  events  Event[]
+  actions Action[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campaignId, number])
+}
+
+
+model Event {
+  id          String @id @default(cuid())
+  title       String
+  description String?
+
+  effect Json?
+
+  turnId String
+  turn   Turn @relation(fields: [turnId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+
+model Action {
+  id     String       @id @default(cuid())
+  type   ActionType
+  status ActionStatus @default(PENDING)
+
+  payload Json?
+
+  turnId String
+  turn   Turn @relation(fields: [turnId], references: [id])
+
+  factionId String
+  faction   Faction @relation(fields: [factionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
