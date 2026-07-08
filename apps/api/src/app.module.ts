@@ -7,14 +7,22 @@ import { CampaignModule } from './campaign/campaign.module';
 import { FactionModule } from './faction/faction.module';
 import { TurnModule } from './turn/turn.module';
 import { PlayerModule } from './player/player.module';
+import { ResourceTypeModule } from './resourceType/resourceType.module';
+import { FactionResourceModule } from './factionResource/factionResource.module';
+import { FactionMemberModule } from './factionMember/factionMember.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
-    PrismaModule,
+    CampaignModule,
+    EventModule,
+    FactionModule,
+    FactionMemberModule,
+    FactionResourceModule,
     GameModule,
     PlayerModule,
-    CampaignModule,
-    FactionModule,
+    PrismaModule,
+    ResourceTypeModule,
     TurnModule,
   ],
   controllers: [AppController],
