@@ -1,15 +1,15 @@
-# dependencies
+# Dependencies
 node_modules/
 
-# environment
+# Environment
 .env
 .env.*
 
-# builds
+# Build output
 dist/
-build/
+coverage/
 
-# logs
+# Logs
 *.log
 
 # OS
@@ -20,11 +20,4 @@ Thumbs.db
 .vscode/
 
 # Prisma
-prisma/*.db
-prisma/*.db-journal
-
-# coverage
-coverage/
-
-# Nest
-.cache/
+packages/database/generated/
