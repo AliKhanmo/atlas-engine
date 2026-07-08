@@ -1,13 +1,21 @@
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateGameDto {
+  @ApiProperty({
+    example: 'Game of Thrones',
+    description: 'Name of the game template',
+  })
   @IsString()
   @IsNotEmpty()
-  @MaxLength(100)
   name!: string;
 
+  @ApiProperty({
+    example: 'A political strategy game based on Westeros',
+    description: 'Game description',
+    required: false,
+  })
   @IsString()
   @IsOptional()
-  @MaxLength(500)
   description?: string;
 }
