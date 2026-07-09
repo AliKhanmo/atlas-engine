@@ -11,6 +11,7 @@ import { ResourceTypeModule } from './resourceType/resourceType.module';
 import { FactionResourceModule } from './factionResource/factionResource.module';
 import { FactionMemberModule } from './factionMember/factionMember.module';
 import { EventModule } from './event/event.module';
+import { HouseModule } from './house/house.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EventModule } from './event/event.module';
     PrismaModule,
     ResourceTypeModule,
     TurnModule,
+    HouseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
