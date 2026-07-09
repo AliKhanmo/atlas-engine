@@ -72,19 +72,36 @@ model Campaign {
 
 
 model Faction {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   description String?
+  bonuses     Json?    // { "stoneProduction": 2.0, "goldMine": true }
+  telegramChatId String? @unique
+  
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  
+  houses      House[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 
-  campaignId String
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
-
-  members    FactionMember[]
-  resources  FactionResource[]
-  actions    Action[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model House {
+  id             String  @id @default(cuid())
+  name           String
+  description    String?
+  telegramChatId String? @unique
+  
+  factionId      String
+  faction        Faction @relation(fields: [factionId], references: [id])
+  
+  members        FactionMember[]
+  resources      FactionResource[]
+  actions        Action[]          // add this
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 
@@ -96,15 +113,15 @@ model FactionMember {
   playerId String
   player   Player @relation(fields: [playerId], references: [id])
 
-  factionId String
-  faction   Faction @relation(fields: [factionId], references: [id])
+  houseId String
+  house   House @relation(fields: [houseId], references: [id])
 
   joinedAt DateTime @default(now())
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([playerId, factionId])
+  @@unique([playerId, houseId])
 }
 
 
@@ -125,8 +142,8 @@ model FactionResource {
   id     String @id @default(cuid())
   amount Int    @default(0)
 
-  factionId String
-  faction   Faction @relation(fields: [factionId], references: [id])
+ houseId String
+ house   House @relation(fields: [houseId], references: [id])
 
   resourceTypeId String
   resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id])
@@ -134,7 +151,7 @@ model FactionResource {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([factionId, resourceTypeId])
+  @@unique([houseId, resourceTypeId])
 }
 
 
@@ -180,8 +197,8 @@ model Action {
   turnId String
   turn   Turn @relation(fields: [turnId], references: [id])
 
-  factionId String
-  faction   Faction @relation(fields: [factionId], references: [id])
+  houseId String
+  house   House @relation(fields: [houseId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

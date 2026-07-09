@@ -7,7 +7,7 @@ export class FactionMemberRepository {
 
   async create(data: {
     playerId: string;
-    factionId: string;
+    houseId: string;
     role?: 'LEADER' | 'MEMBER';
   }) {
     return this.prisma.factionMember.create({
@@ -19,7 +19,7 @@ export class FactionMemberRepository {
     return this.prisma.factionMember.findMany({
       include: {
         player: true,
-        faction: true,
+        house: true,
       },
     });
   }
@@ -29,7 +29,7 @@ export class FactionMemberRepository {
       where: { id },
       include: {
         player: true,
-        faction: true,
+        house: true,
       },
     });
   }
@@ -38,7 +38,7 @@ export class FactionMemberRepository {
     id: string,
     data: {
       playerId?: string;
-      factionId?: string;
+      houseId?: string;
       role?: 'LEADER' | 'MEMBER';
     },
   ) {

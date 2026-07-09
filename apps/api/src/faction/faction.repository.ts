@@ -8,6 +8,8 @@ export class FactionRepository {
   async create(data: {
     name: string;
     description?: string;
+    bonuses?: object;
+    telegramChatId?: string;
     campaignId: string;
   }) {
     return this.prisma.faction.create({
@@ -28,9 +30,7 @@ export class FactionRepository {
       where: { id },
       include: {
         campaign: true,
-        members: true,
-        resources: true,
-        actions: true,
+        houses: true,
       },
     });
   }
@@ -40,6 +40,8 @@ export class FactionRepository {
     data: {
       name?: string;
       description?: string;
+      bonuses?: object;
+      telegramChatId?: string;
       campaignId?: string;
     },
   ) {

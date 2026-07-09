@@ -2,7 +2,7 @@ import { IsInt, IsString, Min } from 'class-validator';
 
 export class CreateFactionResourceDto {
   @IsString()
-  factionId!: string;
+  houseId!: string;
 
   @IsString()
   resourceTypeId!: string;

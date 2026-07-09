@@ -6,7 +6,7 @@ export class FactionResourceRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: {
-    factionId: string;
+    houseId: string;
     resourceTypeId: string;
     amount: number;
   }) {
@@ -18,7 +18,7 @@ export class FactionResourceRepository {
   async findAll() {
     return this.prisma.factionResource.findMany({
       include: {
-        faction: true,
+        house: true,
         resourceType: true,
       },
     });
@@ -28,7 +28,7 @@ export class FactionResourceRepository {
     return this.prisma.factionResource.findUnique({
       where: { id },
       include: {
-        faction: true,
+        house: true,
         resourceType: true,
       },
     });
@@ -37,7 +37,7 @@ export class FactionResourceRepository {
   async update(
     id: string,
     data: {
-      factionId?: string;
+      houseId?: string;
       resourceTypeId?: string;
       amount?: number;
     },

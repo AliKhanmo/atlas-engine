@@ -1,4 +1,4 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { MemberRole } from '@atlas/database';
 
 export class CreateFactionMemberDto {
@@ -6,8 +6,9 @@ export class CreateFactionMemberDto {
   playerId!: string;
 
   @IsString()
-  factionId!: string;
+  houseId!: string;
 
+  @IsOptional()
   @IsEnum(MemberRole)
-  role!: MemberRole;
+  role?: MemberRole;
 }
