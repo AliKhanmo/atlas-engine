@@ -8,14 +8,20 @@
   },
   "scripts": {
     "generate": "prisma generate",
-    "migrate": "prisma migrate dev"
+    "migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "prisma": "^7.8.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "prisma": "^7.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.0"
   }
 }

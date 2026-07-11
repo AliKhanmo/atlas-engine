@@ -42,17 +42,55 @@ export class HouseRepository {
         telegramChatId,
       },
       include: {
-        faction: true,
+        faction: {
+          include: {
+            campaign: true,
+          },
+        },
+
+        castle: true,
+
+        // All characters, not just the lord - needed for commanders too
+        characters: true,
+
         members: {
           include: {
             player: true,
           },
         },
+
         resources: {
           include: {
             resourceType: true,
           },
         },
+
+        productions: {
+          include: {
+            resourceType: true,
+          },
+        },
+
+        units: {
+          include: {
+            unitType: true,
+          },
+        },
+
+        // Diplomacy: this house's relations in both directions
+        relationsFrom: {
+          include: {
+            houseB: true,
+          },
+        },
+
+        relationsTo: {
+          include: {
+            houseA: true,
+          },
+        },
+
+        actions: true,
       },
     });
   }
